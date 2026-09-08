@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include <esp_log.h>
 #include <freertos/FreeRTOS.h>
 
 #include "ds3231.h"
@@ -11,10 +12,20 @@ void app_main(void) {
 
 	while (1) {
 		uint8_t sec;
+		uint8_t min;
+		uint8_t hour;
+		uint8_t day;
+		uint8_t date;
 
 		ds3231_get_sec(&sec);
+		ds3231_get_min(&min);
+		ds3231_get_hour(&hour);
+		ds3231_get_day(&day);
+		ds3231_get_date(&date);
 
-		printf("Seconds: %" PRIu8 "\n", sec);
+		printf("%02" PRIu8 " %02" PRIu8 " %02" PRIu8 ":%02" PRIu8 ":%02" PRIu8
+			   "\n",
+			   date, day, hour, min, sec);
 
 		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
