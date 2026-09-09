@@ -96,3 +96,9 @@ void ds3231_get_century(ds3231_century_t *century) {
 	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, &_century, 1);
 	*century = (ds3231_century_t)((_century >> 7) & 0x01);
 }
+
+void ds3231_get_year(uint8_t *year) {
+	uint8_t reg_addr = 0x06;
+	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, year, 1);
+	*year = bcd_to_dec(*year);
+}

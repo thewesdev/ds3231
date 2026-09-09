@@ -33,6 +33,7 @@ void ds3231_get_day(uint8_t *day);
 void ds3231_get_date(uint8_t *date);
 void ds3231_get_month(uint8_t *month);
 void ds3231_get_century(ds3231_century_t *century);
+void ds3231_get_year(uint8_t *year);
 
 #ifdef __cplusplus
 }
