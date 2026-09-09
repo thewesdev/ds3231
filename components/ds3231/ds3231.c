@@ -10,6 +10,7 @@ static void *ds3231_handle = NULL;
 
 static ds3231_hour_mode_t s_hour_mode = DS3231_24HOUR_MODE;
 static ds3231_century_t s_century = DS3231_CENTURY_0;
+static ds3231_osf_t s_osf = DS3231_NON_STOP;
 
 static inline uint8_t bcd_to_dec(uint8_t bcd) {
 	return ((bcd >> 4) * 10) + (bcd & 0x0F);
@@ -20,10 +21,12 @@ void ds3231_init() {
 
 	ds3231_get_hour_mode(&s_hour_mode);
 	ds3231_get_century(&s_century);
+	ds3231_status_get_osf(&s_osf);
 
 	ESP_LOGI(TAG, "Hour mode: %s",
 			 s_hour_mode == DS3231_24HOUR_MODE ? "24-hour" : "12-hour AM/PM");
-	ESP_LOGI(TAG, "Century: %" PRId8, s_century);
+	ESP_LOGI(TAG, "Century: %" PRId8, s_century == DS3231_CENTURY_0 ? 0 : 1);
+	ESP_LOGI(TAG, "OSF: %" PRId8, s_osf == DS3231_NON_STOP ? 0 : 1);
 }
 
 void ds3231_get_sec(uint8_t *seconds) {
@@ -94,11 +97,18 @@ void ds3231_get_century(ds3231_century_t *century) {
 	uint8_t reg_addr = 0x05;
 	uint8_t _century;
 	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, &_century, 1);
-	*century = (ds3231_century_t)((_century >> 7) & 0x01);
+	*century = (ds3231_century_t)(_century & 0x80);
 }
 
 void ds3231_get_year(uint8_t *year) {
 	uint8_t reg_addr = 0x06;
 	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, year, 1);
 	*year = bcd_to_dec(*year);
+}
+
+void ds3231_status_get_osf(ds3231_osf_t *osf) {
+	uint8_t reg_addr = 0x0F;
+	uint8_t reg_value;
+	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, &reg_value, 1);
+	*osf = (ds3231_osf_t)(reg_value & 0x80);
 }

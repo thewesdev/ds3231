@@ -19,9 +19,14 @@ typedef enum {
 } ds3231_meridiem_t;
 
 typedef enum {
-	DS3231_CENTURY_0,
-	DS3231_CENTURY_1,
+	DS3231_CENTURY_0 = 0x00,
+	DS3231_CENTURY_1 = 0x80,
 } ds3231_century_t;
+
+typedef enum {
+	DS3231_NON_STOP = 0x00,
+	DS3231_STOP = 0x80,
+} ds3231_osf_t;
 
 void ds3231_init();
 void ds3231_get_sec(uint8_t *seconds);
@@ -34,6 +39,8 @@ void ds3231_get_date(uint8_t *date);
 void ds3231_get_month(uint8_t *month);
 void ds3231_get_century(ds3231_century_t *century);
 void ds3231_get_year(uint8_t *year);
+
+void ds3231_status_get_osf(ds3231_osf_t *osf);
 
 #ifdef __cplusplus
 }
