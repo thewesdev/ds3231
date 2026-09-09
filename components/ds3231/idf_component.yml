@@ -1,3 +1,11 @@
-## IDF Component Manager Manifest File
+version: "0.0.1"
+description: "Simple DS3231 Component for ESP32"
+url: "https://github.com/thewesdev/ds3231"
+repository: "https://github.com/thewesdev/ds3231.git"
+license: "MIT"
+tags:
+  - "ds3231"
+  - "rtc"
+  - "hw084"
 dependencies:
   thewesdev/i2c: '*'
