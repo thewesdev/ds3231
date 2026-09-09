@@ -3,9 +3,9 @@
 ## Features
 
 - ds3231 init with add_device function
-- reading seconds, minutes, hours, day, date, month and year
-- reading hour_mode, hour_meridiem and century
-- reading osf (Oscillator Stop Flag) status
+- reading and writing seconds, minutes, hours, day, date, month and year
+- reading and writing hour_mode, hour_meridiem and century
+- reading and writing osf (Oscillator Stop Flag) status
 
 ## I2C
 

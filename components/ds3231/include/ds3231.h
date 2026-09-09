@@ -40,7 +40,17 @@ void ds3231_get_month(uint8_t *month);
 void ds3231_get_century(ds3231_century_t *century);
 void ds3231_get_year(uint8_t *year);
 
+void ds3231_set_sec(uint8_t seconds);
+void ds3231_set_min(uint8_t minutes);
+void ds3231_set_hour(uint8_t hours);
+void ds3231_set_hour_mode(ds3231_hour_mode_t hour_mode);
+void ds3231_set_day(uint8_t day);
+void ds3231_set_date(uint8_t date);
+void ds3231_set_month(uint8_t month);
+void ds3231_set_year(uint8_t year);
+
 void ds3231_status_get_osf(ds3231_osf_t *osf);
+void ds3231_status_set_osf(ds3231_osf_t osf);
 
 #ifdef __cplusplus
 }
