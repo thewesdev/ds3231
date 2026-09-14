@@ -1,4 +1,4 @@
-version: "0.0.2"
+version: "0.0.3"
 description: "Simple DS3231 Component for ESP32"
 url: "https://github.com/thewesdev/ds3231"
 repository: "https://github.com/thewesdev/ds3231.git"
