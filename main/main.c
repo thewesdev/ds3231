@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include <esp_err.h>
 #include <esp_log.h>
 #include <freertos/FreeRTOS.h>
 
@@ -8,11 +9,12 @@
 
 void app_main(void) {
 	i2c_master_init();
-	ds3231_init();
+	ESP_ERROR_CHECK(ds3231_init());
 
-	ds3231_hour_mode_t hour_mode = DS3231_12HOUR_MODE;
+	ds3231_hour_mode_t hour_mode = DS3231_24HOUR_MODE;
 
 	ds3231_set_hour_mode(hour_mode);
+	// ds3231_status_set_osf(DS3231_NON_STOP);
 
 	// ds3231_set_year(26);
 	// ds3231_set_month(9);

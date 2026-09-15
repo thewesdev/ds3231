@@ -1,6 +1,7 @@
 #ifndef COMPONENT_DS3231_H
 #define COMPONENT_DS3231_H
 
+#include <esp_err.h>
 #include <inttypes.h>
 
 #ifdef __cplusplus
@@ -43,7 +44,7 @@ typedef enum {
 	DS3231_LEN
 } ds3231_array_id;
 
-void ds3231_init();
+esp_err_t ds3231_init();
 void ds3231_get_sec(uint8_t *seconds);
 void ds3231_get_min(uint8_t *minutes);
 void ds3231_get_hour(uint8_t *hours);

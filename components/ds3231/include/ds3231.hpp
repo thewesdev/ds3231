@@ -4,7 +4,7 @@
 #include "ds3231.h"
 
 namespace ds3231 {
-	inline void init() { return ds3231_init(); }
+	inline esp_err_t init() { return ds3231_init(); }
 
 	namespace get {
 		inline void sec(uint8_t *seconds) { return ds3231_get_sec(seconds); }

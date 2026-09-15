@@ -16,8 +16,12 @@ static inline uint8_t dec_to_bcd(uint8_t dec) {
 	return ((dec / 10) << 4) | (dec % 10);
 }
 
-void ds3231_init() {
+esp_err_t ds3231_init() {
 	ds3231_handle = i2c_master_add_device(0x68, 100000);
+
+	if (ds3231_handle == NULL) {
+		return ESP_FAIL;
+	}
 
 	ds3231_hour_mode_t hour_mode = DS3231_24HOUR_MODE;
 	ds3231_century_t century = DS3231_CENTURY_0;
@@ -31,6 +35,8 @@ void ds3231_init() {
 			 hour_mode == DS3231_24HOUR_MODE ? "24-hour" : "12-hour AM/PM");
 	ESP_LOGI(TAG, "Century: %" PRId8, century == DS3231_CENTURY_0 ? 0 : 1);
 	ESP_LOGI(TAG, "OSF: %" PRId8, osf == DS3231_NON_STOP ? 0 : 1);
+
+	return ESP_OK;
 }
 
 void ds3231_get_sec(uint8_t *seconds) {
