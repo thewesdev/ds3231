@@ -32,6 +32,8 @@ namespace ds3231 {
 		}
 
 		inline void year(uint8_t *year) { return ds3231_get_year(year); }
+
+		inline void all(uint8_t **ret) { return ds3231_get_all(ret); }
 	} // namespace get
 
 	namespace set {
@@ -52,6 +54,8 @@ namespace ds3231 {
 		inline void month(uint8_t month) { return ds3231_set_month(month); }
 
 		inline void year(uint8_t year) { return ds3231_set_year(year); }
+
+		inline void all(uint8_t *ret) { return ds3231_set_all(ret); }
 	} // namespace set
 
 	namespace status {

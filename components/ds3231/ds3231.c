@@ -111,6 +111,26 @@ void ds3231_get_year(uint8_t *year) {
 	*year = bcd_to_dec(*year);
 }
 
+void ds3231_get_all(uint8_t **ret) {
+	uint8_t reg_addr = 0x00;
+	uint8_t raw[DS3231_LEN];
+
+	i2c_master_device_trans_recv(ds3231_handle, &reg_addr, 1, raw, 7);
+
+	(*ret)[DS3231_SEC] = bcd_to_dec(raw[0]);
+	(*ret)[DS3231_MIN] = bcd_to_dec(raw[1]);
+	(*ret)[DS3231_HOUR] = bcd_to_dec(
+		(raw[2] & DS3231_12HOUR_MODE) ? (raw[2] & 0x1F) : (raw[2] & 0x3F));
+	(*ret)[DS3231_DAY] = bcd_to_dec(raw[3]);
+	(*ret)[DS3231_DATE] = bcd_to_dec(raw[4] & 0x3F);
+	(*ret)[DS3231_MONTH] = bcd_to_dec(raw[5] & 0x1F);
+	(*ret)[DS3231_YEAR] = bcd_to_dec(raw[6]);
+	(*ret)[DS3231_HOUR_MODE] = (raw[2] & DS3231_12HOUR_MODE);
+	(*ret)[DS3231_HOUR_MERIDIEM] =
+		(*ret)[DS3231_HOUR_MODE] ? (raw[2] & DS3231_PM) : DS3231_NON_USED;
+	(*ret)[DS3231_CENTURY] = (raw[5] & DS3231_CENTURY_1);
+}
+
 void ds3231_status_get_osf(ds3231_osf_t *osf) {
 	uint8_t reg_addr = 0x0F;
 	uint8_t reg_value;
@@ -237,4 +257,22 @@ void ds3231_set_month(uint8_t month) {
 void ds3231_set_year(uint8_t year) {
 	uint8_t buffer[2] = {0x06, dec_to_bcd(year)};
 	i2c_master_device_trans(ds3231_handle, buffer, 2);
+}
+
+void ds3231_set_all(uint8_t *values) {
+	uint8_t buffer[8] = {
+		0x00,
+		dec_to_bcd(values[DS3231_SEC]),
+		dec_to_bcd(values[DS3231_MIN]),
+		0,
+		dec_to_bcd(values[DS3231_DAY]),
+		dec_to_bcd(values[DS3231_DATE]),
+		dec_to_bcd(values[DS3231_MONTH]) | values[DS3231_CENTURY],
+		dec_to_bcd(values[DS3231_YEAR]),
+	};
+
+	i2c_master_device_trans(ds3231_handle, buffer, sizeof(buffer));
+
+	ds3231_set_hour_mode((ds3231_hour_mode_t)values[DS3231_HOUR_MODE]);
+	ds3231_set_hour(values[DS3231_HOUR]);
 }

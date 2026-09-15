@@ -28,6 +28,21 @@ typedef enum {
 	DS3231_STOP = 0x80,
 } ds3231_osf_t;
 
+typedef enum {
+	DS3231_NON_USED = -1,
+	DS3231_SEC,
+	DS3231_MIN,
+	DS3231_HOUR,
+	DS3231_DAY,
+	DS3231_DATE,
+	DS3231_MONTH,
+	DS3231_YEAR,
+	DS3231_HOUR_MODE,
+	DS3231_HOUR_MERIDIEM,
+	DS3231_CENTURY,
+	DS3231_LEN
+} ds3231_array_id;
+
 void ds3231_init();
 void ds3231_get_sec(uint8_t *seconds);
 void ds3231_get_min(uint8_t *minutes);
@@ -39,6 +54,7 @@ void ds3231_get_date(uint8_t *date);
 void ds3231_get_month(uint8_t *month);
 void ds3231_get_century(ds3231_century_t *century);
 void ds3231_get_year(uint8_t *year);
+void ds3231_get_all(uint8_t **ret);
 
 void ds3231_set_sec(uint8_t seconds);
 void ds3231_set_min(uint8_t minutes);
@@ -48,6 +64,7 @@ void ds3231_set_day(uint8_t day);
 void ds3231_set_date(uint8_t date);
 void ds3231_set_month(uint8_t month);
 void ds3231_set_year(uint8_t year);
+void ds3231_set_all(uint8_t *values);
 
 void ds3231_status_get_osf(ds3231_osf_t *osf);
 void ds3231_status_set_osf(ds3231_osf_t osf);
